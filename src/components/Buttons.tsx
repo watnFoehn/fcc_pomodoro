@@ -2,11 +2,6 @@ import React from 'react';
 import { Button } from 'hacker-ui';
 import styled from 'styled-components'
 
-const Wrapper = styled.div`
-  display: flex;
-  justify-content: center;
-`
-
 const StyledButton = styled(Button)`
   margin: 8px;
   padding: 8px;
@@ -14,10 +9,10 @@ const StyledButton = styled(Button)`
 
 const Buttons = () =>
 (
-<Wrapper>
+  <div>
     <StyledButton variant="filled">start/stop</StyledButton>
     <StyledButton variant="filled">reset</StyledButton>
-</Wrapper>
+  </div>
 )
 
 export default Buttons;
