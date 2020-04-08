@@ -10,8 +10,8 @@ const StyledButton = styled(Button)`
 const Buttons = () =>
 (
   <div>
-    <StyledButton variant="filled">start/stop</StyledButton>
-    <StyledButton variant="filled">reset</StyledButton>
+    <StyledButton variant="filled" id="start_stop">start/stop</StyledButton>
+    <StyledButton variant="filled" id="reset">reset</StyledButton>
   </div>
 )
 

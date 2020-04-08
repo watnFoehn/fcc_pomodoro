@@ -1,16 +1,26 @@
 import React from 'react';
+import styled from 'styled-components'
 
+const Wrapper = styled.div`
+  text-align: center;
+`
 
-const Display = () =>
+const Divider = styled.div`
+  border-bottom: 2px solid #5C87FF;
+`
+type Props = {breakLength: number, sessionLength: number}
+
+const Display = (props: Props) =>
 (
-  <div>
+  <Wrapper>
     <div id="break-label">break length</div>
-    <div id="break-length">DYNAMIC BREAK LENGTH</div>
+    <div id="break-length"><h3>{props.breakLength}</h3></div>
     <div id="session-label">session length</div>
-    <div id="session-length">DYNAMIC SESSION LENGTH</div>
-    <div id="timer-label">TIME LEFT</div>
-    <div id="time-left">session type</div>
-  </div>
+    <div id="session-length"><h3>{props.sessionLength}</h3></div>
+    <Divider />
+    <div id="timer-label"><h2>DYNAMIC TIME LEFT</h2></div>
+    <div id="time-left"><h3>DYNAMIC SESSION TYPE</h3></div>
+  </Wrapper>
 )
 
 export default Display;
