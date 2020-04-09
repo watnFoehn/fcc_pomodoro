@@ -7,11 +7,13 @@ const StyledButton = styled(Button)`
   padding: 8px;
 `
 
-const Buttons = () =>
+type Props = {handleResetButton:Function}
+
+const Buttons = (props:Props) =>
 (
   <div>
     <StyledButton variant="filled" id="start_stop">start/stop</StyledButton>
-    <StyledButton variant="filled" id="reset">reset</StyledButton>
+    <StyledButton variant="filled" id="reset" onClick={() => props.handleResetButton()}>reset</StyledButton>
   </div>
 )
 

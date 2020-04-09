@@ -2,7 +2,6 @@ import React, {useState} from 'react';
 import Buttons from './components/Buttons'
 import Options from './components/Options'
 import Display from './components/Display'
-import timeParser from './utility/timeParser'
 import styled from 'styled-components'
 
 const Wrapper = styled.div`
@@ -26,24 +25,70 @@ function App() {
 
   const [sessionLength,setSessionLength] = useState(25);
   const [breakLength,setBreakLength] = useState(5);
-  const [breakTimeLeft,setBreakTimeLeft] = useState(timeParser(3));
-  const [timeLeft,setTimeLeft] = useState(timeParser(2));
+  const [breakTimeLeft,setBreakTimeLeft] = useState(300);
+  const [timeLeft,setTimeLeft] = useState(1500);
   const [isBreakRunning, setIsBreakRunning] = useState(false);
-  const [isTimerRunning, setIsTimerRunning] = useState(false);
+  //const [isTimerRunning, setIsTimerRunning] = useState(false);
+
+  let timerId:any;
+
+  const handleResetButton = () => {
+    setBreakLength(5);
+    setSessionLength(25);
+    setBreakTimeLeft(300);
+    setTimeLeft(1500);
+    setIsBreakRunning(false);
+    
+    clearInterval(timerId);
+    timerId = null;
+    /* let beep = document.querySelector('#beep');
+    beep.pause();
+    beep.currentTime = 0; */
+  }
+
+  const handleOptionsButtons = (id:string) => {
+    /* if(this.timerId) {
+      return;
+    } */
+    switch(id) {
+      case 'break-increment':
+        if(breakLength >= 60) {
+          return;
+        }
+        setBreakLength(breakLength + 1);
+        setBreakTimeLeft((breakLength + 1) * 60);
+        break;
+      case 'break-decrement':
+        if(breakLength <= 1) {
+          return;
+        }
+        setBreakLength(breakLength - 1);
+        setBreakTimeLeft((breakLength - 1) * 60);
+        break;
+      case 'session-increment':
+        if(sessionLength >= 60) {
+          return;
+        }
+        setSessionLength(sessionLength + 1);
+        setTimeLeft((sessionLength + 1) * 60);
+        break;
+      case 'session-decrement':
+        if(sessionLength <= 1) {
+          return;
+        }
+        setSessionLength(sessionLength - 1);
+        setTimeLeft((sessionLength - 1) * 60);
+        break;
+      default:
+        break;
+    }
+  }
 
   return (
     <Wrapper>
-      <Options setSessionLength={setSessionLength}
-               setBreakLength={setBreakLength}
-               breakTimeLeft={breakTimeLeft}
-               setBreakTimeLeft={setBreakTimeLeft}
-               sessionLength={sessionLength}
-               breakLength={breakLength}
-               timeLeft={timeLeft}
-               setTimeLeft={setTimeLeft}
-      />
-      <Display sessionLength={sessionLength} breakLength={breakLength}/>
-      <Buttons />
+      <Options handleOptionsButtons={handleOptionsButtons} />
+      <Display sessionLength={sessionLength} breakLength={breakLength} timeLeft={timeLeft} breakTimeLeft={breakTimeLeft}/>
+      <Buttons handleResetButton={handleResetButton}/>
     </Wrapper>
   );
 }

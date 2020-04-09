@@ -1,5 +1,6 @@
 import React from 'react';
 import styled from 'styled-components'
+import timeParser from '../utility/timeParser'
 
 const Wrapper = styled.div`
   text-align: center;
@@ -8,7 +9,7 @@ const Wrapper = styled.div`
 const Divider = styled.div`
   border-bottom: 2px solid #5C87FF;
 `
-type Props = {breakLength: number, sessionLength: number}
+type Props = {breakLength: number, sessionLength: number, timeLeft: any, breakTimeLeft: any }
 
 const Display = (props: Props) =>
 (
@@ -18,8 +19,8 @@ const Display = (props: Props) =>
     <div id="session-label">session length</div>
     <div id="session-length"><h3>{props.sessionLength}</h3></div>
     <Divider />
-    <div id="timer-label"><h2>DYNAMIC TIME LEFT</h2></div>
-    <div id="time-left"><h3>DYNAMIC SESSION TYPE</h3></div>
+    <div id="timer-label"><h3>DYNAMIC SESSION TYPE</h3></div>
+    <div id="time-left"><h2>{timeParser(props.timeLeft)}</h2></div>
   </Wrapper>
 )
 
