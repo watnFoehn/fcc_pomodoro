@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import Buttons from './components/Buttons'
 import Options from './components/Options'
 import Display from './components/Display'
@@ -20,17 +20,16 @@ border: 2px solid #5C87FF;
 `
 
 
+let timerId:any;
 
 function App() {
-
+  
   const [sessionLength,setSessionLength] = useState(25);
   const [breakLength,setBreakLength] = useState(5);
   const [breakTimeLeft,setBreakTimeLeft] = useState(300);
   const [timeLeft,setTimeLeft] = useState(1500);
   const [isBreakRunning, setIsBreakRunning] = useState(false);
-  //const [isTimerRunning, setIsTimerRunning] = useState(false);
-
-  let timerId:any;
+  
 
   const handleResetButton = () => {
     setBreakLength(5);
@@ -38,18 +37,18 @@ function App() {
     setBreakTimeLeft(300);
     setTimeLeft(1500);
     setIsBreakRunning(false);
-    
     clearInterval(timerId);
     timerId = null;
-    /* let beep = document.querySelector('#beep');
+    //TODO: this beep needs another type than any
+    let beep:any = document.querySelector('#beep');
     beep.pause();
-    beep.currentTime = 0; */
+    beep.currentTime = 0;
   }
 
   const handleOptionsButtons = (id:string) => {
-    /* if(this.timerId) {
+    if(timerId) {
       return;
-    } */
+    }
     switch(id) {
       case 'break-increment':
         if(breakLength >= 60) {
@@ -84,11 +83,65 @@ function App() {
     }
   }
 
+  const handleStartButton = () => {
+    if(isBreakRunning) {
+      if(timerId) {
+        setBreakTimeLeft(breakTimeLeft)
+        clearInterval(timerId);
+        timerId = null;
+        return;
+      }
+      timerId = setInterval(() => {
+          setBreakTimeLeft(breakTimeLeft - 1 );
+        },
+        1000);
+    } else {
+      if(timerId) {
+        setBreakTimeLeft(breakTimeLeft)
+        clearInterval(timerId);
+        timerId = null;
+        return;
+      }
+      timerId = setInterval(() => {
+        setTimeLeft(timeLeft - 1 );
+      },
+      1000);
+    }
+  }
+
+  useEffect(() => {
+    if(timeLeft < 0) {
+      clearInterval(timerId);
+      let beep:any = document.querySelector('#beep');
+      beep.play();     
+      setTimeLeft(sessionLength * 60);
+      setIsBreakRunning(!isBreakRunning);
+      timerId = setInterval(() => {
+        setBreakTimeLeft(breakTimeLeft - 1);
+      },
+      1000);
+    }
+    if(breakTimeLeft < 0) {
+      clearInterval(timerId);
+      let beep:any = document.querySelector('#beep');
+      beep.play(); 
+      setBreakTimeLeft(breakLength * 60);
+      setIsBreakRunning(!isBreakRunning);
+      timerId = setInterval(() => {
+        setTimeLeft(timeLeft - 1);
+      },
+      1000);
+    }
+  });
+
+console.log(timerId);
+
   return (
     <Wrapper>
-      <Options handleOptionsButtons={handleOptionsButtons} />
-      <Display sessionLength={sessionLength} breakLength={breakLength} timeLeft={timeLeft} breakTimeLeft={breakTimeLeft}/>
-      <Buttons handleResetButton={handleResetButton}/>
+      <Options handleOptionsButtons={handleOptionsButtons} sessionLength={sessionLength} breakLength={breakLength} />
+      <Display timeLeft={timeLeft} breakTimeLeft={breakTimeLeft} isBreakRunning={isBreakRunning}/>
+      <Buttons handleResetButton={handleResetButton} handleStartButton={handleStartButton}/>
+      <audio src="tone.wav" id="beep"></audio>
     </Wrapper>
   );
 }

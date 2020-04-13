@@ -6,21 +6,13 @@ const Wrapper = styled.div`
   text-align: center;
 `
 
-const Divider = styled.div`
-  border-bottom: 2px solid #5C87FF;
-`
-type Props = {breakLength: number, sessionLength: number, timeLeft: any, breakTimeLeft: any }
+type Props = {timeLeft: any, breakTimeLeft: any, isBreakRunning: boolean }
 
 const Display = (props: Props) =>
 (
   <Wrapper>
-    <div id="break-label">break length</div>
-    <div id="break-length"><h3>{props.breakLength}</h3></div>
-    <div id="session-label">session length</div>
-    <div id="session-length"><h3>{props.sessionLength}</h3></div>
-    <Divider />
-    <div id="timer-label"><h3>DYNAMIC SESSION TYPE</h3></div>
-    <div id="time-left"><h2>{timeParser(props.timeLeft)}</h2></div>
+    <div id="timer-label"><h3>{props.isBreakRunning  ? 'Break': 'Session' }</h3></div>
+    <div id="time-left"><h2>{props.isBreakRunning  ? timeParser(props.breakTimeLeft) : timeParser(props.timeLeft)}</h2></div>
   </Wrapper>
 )
 

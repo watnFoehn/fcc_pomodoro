@@ -8,28 +8,55 @@ const StyledButton = styled(Button)`
 `
 
 const Wrapper = styled.div`
-  display: flex;
-  justify-content: space-evenly;
+  display: grid;
+  justify-items: center;
+  align-items: center;
+  @media only screen and (min-width: 945px) {
+    grid-template-columns: 200px 200px 200px 200px;
+  }
+  @media only screen and (max-width: 944px) {
+    grid-template-columns: 1fr 1fr;
+  }
+  @media only screen and (max-width: 270px) {
+    grid-template-columns: 1fr;
+  }
+  text-align: center;
+` 
+
+const LabelWrapper = styled.div`
+  margin: 8px;
+  padding: 8px;
 `
 
-type Props = { handleOptionsButtons: Function }
+const SessionLength = styled.h3``
+const BreakLength = styled.h3``
+
+type Props = { breakLength: number, sessionLength: number, handleOptionsButtons: Function }
 
 
 const Options = (props:Props) => {
 
-  const {handleOptionsButtons  } = props;
+  const {handleOptionsButtons, sessionLength, breakLength  } = props;
 
   return (
-  <div>
     <Wrapper>
-      <StyledButton variant="outlined" id="session-increment" onClick={() => handleOptionsButtons("session-increment")}>increment session</StyledButton>
-      <StyledButton variant="outlined" id="session-decrement" onClick={() => handleOptionsButtons("session-decrement")}>decrement session</StyledButton>
+      <div>
+        <StyledButton variant="outlined" id="session-increment" onClick={() => handleOptionsButtons("session-increment")}>increment session</StyledButton>
+        <StyledButton variant="outlined" id="break-increment" onClick={() => handleOptionsButtons("break-increment")}>increment break</StyledButton>
+      </div>  
+      <div>
+        <StyledButton variant="outlined" id="session-decrement" onClick={() => handleOptionsButtons("session-decrement")}>decrement session</StyledButton>
+        <StyledButton variant="outlined" id="break-decrement" onClick={() => handleOptionsButtons("break-decrement")}>decrement break</StyledButton>
+      </div>  
+      <div>
+        <div id="session-length"><SessionLength>{sessionLength}</SessionLength></div>
+        <div id="break-length"><BreakLength>{breakLength}</BreakLength></div>
+      </div>  
+      <div>
+        <LabelWrapper id="session-label">session length</LabelWrapper>
+        <LabelWrapper id="break-label">break length</LabelWrapper>
+      </div>  
     </Wrapper>
-    <Wrapper>
-      <StyledButton variant="outlined" id="break-increment" onClick={() => handleOptionsButtons("break-increment")}>increment break</StyledButton>
-      <StyledButton variant="outlined" id="break-decrement" onClick={() => handleOptionsButtons("break-decrement")}>decrement break</StyledButton>
-    </Wrapper>
-  </div>
 )
 }
 

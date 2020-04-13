@@ -3,7 +3,7 @@ const timeParser = (time: number) => {
     minutes = time / 60;
     seconds = time % 60;
     seconds = seconds < 10 ? "0" + seconds : seconds;
-    return minutes + ":" + seconds;
+    return Math.floor(minutes) + ":" + seconds.toString();
         
   }
 
